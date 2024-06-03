@@ -19,8 +19,11 @@
     "description": "Express.ts auth api",
     "devDependencies": {
         "@types/bcrypt": "^5.0.2",
+        "@types/cookie-parser": "^1.4.7",
+        "@types/cors": "^2.8.17",
         "@types/express": "^4.17.21",
         "@types/jest": "^29.5.12",
+        "@types/jsonwebtoken": "^9.0.6",
         "@types/supertest": "^6.0.2",
         "@typescript-eslint/eslint-plugin": "^7.10.0",
         "@typescript-eslint/parser": "^7.10.0",
@@ -37,7 +40,11 @@
     "dependencies": {
         "@prisma/client": "^5.14.0",
         "bcrypt": "^5.1.1",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
         "express": "^4.19.2",
+        "jsonwebtoken": "^9.0.2",
         "winston": "^3.13.0",
         "zod": "^3.23.8"
     }

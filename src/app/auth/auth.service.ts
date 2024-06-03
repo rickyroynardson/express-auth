@@ -1,6 +1,7 @@
 import prisma from '../../db';
-import { hash } from '../../utils/hash';
-import { RegisterType } from './auth.type';
+import { compare, hash } from '../../utils/hash';
+import { generateAccessToken, generateRefreshToken } from '../../utils/jwt';
+import { LoginType, RegisterType } from './auth.type';
 
 export const register = async (body: RegisterType) => {
     const userWithSameEmail = await prisma.user.findUnique({
@@ -32,4 +33,38 @@ export const register = async (body: RegisterType) => {
     });
 
     return user;
+};
+
+export const login = async (body: LoginType) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            email: body.email,
+        },
+    });
+
+    if (!user) {
+        throw new Error('Invalid credentials');
+    }
+
+    const isPasswordValid = await compare(body.password, user.password);
+
+    if (!isPasswordValid) {
+        throw new Error('Invalid credentials');
+    }
+
+    const tokenPayload = { userId: user.userId };
+    const accessToken = generateAccessToken(tokenPayload);
+    const refreshToken = generateRefreshToken(tokenPayload);
+
+    return {
+        user: {
+            userId: user.userId,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            emailVerifiedAt: user.emailVerifiedAt,
+        },
+        accessToken,
+        refreshToken,
+    };
 };

@@ -1,4 +1,5 @@
 import app from './app';
+import { PORT } from './utils/config';
 import { logger } from './utils/logger';
 
-app.listen(4000, () => logger.info('Server running on port 4000'));
+app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
